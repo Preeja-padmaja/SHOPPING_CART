@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+    {% load static %}
+        {% block metadescription %}
+            {{ product.description | truncatewords:155}}
+
+            {% endblock %}
+        {% block title %}
+            {% if category %}
+                {{ product.p_name  }}- ABC Store
+                        {% endif %}
+        {% endblock %}
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx_auto">
+        <p><a href="{% url 'Shopping_Cart_App:allprodcat' %}">Home</a> |<a href="{{product.category.get_url}}">{{product.p_name}}</a></p>
+    </div>
+
+</div>
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <div style="min-width:18rem">
+                <img src="{{product.image.url}}" alt="{{product.p_name}}" width="200" height="250">
+            </div>
+        </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <div>
+            <h1 class="my_prod_title">{{product.p_name}}</h1>
+            <p>${{product.price}}</p>
+            <p class="text-justify my_title">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p class="text-justify my_prod_text">${{product.desc}}</p>
+            {% if product.stock <= 0 %}
+            <p class="text-justify my_prod_text"><b>OUT OF STOCK</b></p>
+            {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart_app:add_cart' product.id %}">Add to cart</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    </div>
+
+{% endblock %}

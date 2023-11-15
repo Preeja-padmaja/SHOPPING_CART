@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+    {% load static %}
+        {% block metadescription %}
+            {% if category %}
+                {{ category.description | truncatewords:155}}
+            {% else %}
+                Welcome to ABC Store Where you Can Buys Different items
+            {% endif %}
+        {% endblock %}
+        {% block title %}
+            {% if category %}
+                {{ category.c_name  }}- ABC Store
+            {% else %}
+                See Our New Collections-ABC Store
+            {% endif %}
+        {% endblock %}
+    {% block content %}
+        {% if category %}
+            <div>
+                <div class="row my_class">
+                    <div class="mx-auto">
+                    <p><a href="{% url 'Shopping_Cart_App:allprodcat' %}">Our Product Collection</a></p>
+                </div>
+                    </div>
+            </div>
+        {% endif %}
+        <div class="mx_auto">
+            {% if category %}
+                <img class="my_image" src="{{category.image.url}}" alt="{{category.c_name}}">
+        </div>
+                <br>
+        <div>
+                <h1 class="text-center my_title"> {{category.c_name}}</h1>
+                <p class="text-justify">{{category.desc}}</p>
+        </div>
+            {% else %}
+                <div>
+                    <img  src="{% static 'img/banner.png' %}" alt="Our Products" width="1200" height="400" >
+                </div>
+                <br>
+                <div>
+                    <h1 class="text-center my title">Our Products</h1>
+                    <p class="text-justify">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+                </div>
+            {% endif %}
+    <div class="container">
+        <div class="row max-auto">
+            {% for pdt in products.object_list %}
+            <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                <div class="card text-center" style="min-width:10rem;">
+                    <a href="{{pdt.get_url}}"><img class="card-img-top my_image" src="{{pdt.image.url}}" alt="{{pdt.p_name}}"></a>
+                    <div class="card-body">
+                        <h4>{{pdt.p_name}}</h4>
+                        <p>{{pdt.price}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mx_auto">
+            {% if products.paginator.num_pages > 1 %}
+            <hr>
+            <div class="text-center">
+                {% for pg in products.paginator.page_range %}
+                    <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+
+    {% endblock %}
+
